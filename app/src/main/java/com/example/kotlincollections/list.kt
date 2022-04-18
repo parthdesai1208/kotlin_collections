@@ -2,7 +2,7 @@ package com.example.kotlincollections
 
 fun main() {
 
-    /*//region basic list things
+    //region basic list things
     val items = listOf("1st item","2nd item","3rd item","4th item")
     println(items)
     //[1st item, 2nd item, 3rd item, 4th item]
@@ -18,10 +18,15 @@ fun main() {
 //    Fourth element: four
 //    Index of element "two" 1
 
-    val lastIndexList = listOf("one","two","three","four","two","five")
-    println(lastIndexList.lastIndexOf("two")) //find the last matching element & give index of it
+    val lastIndexOfList = listOf("one","two","three","four","two","five")
+    println(lastIndexOfList.lastIndexOf("two")) //find the last matching element & give index of it
     //4
-    //endregion*/
+
+    //lastIndex = Returns the index of the last item in the list or -1 if the list is empty.
+    val lastIndexList = listOf("a", "x", "y")
+    println(lastIndexList.lastIndex) // 2
+    println(lastIndexList[lastIndexList.lastIndex]) // y
+    //endregion
 
     //region contains
     //Checks if the specified element is contained in this collection.
@@ -62,10 +67,38 @@ fun main() {
     //Returns true if the iteration has more elements.
     println(iteratorList.iterator().hasNext()) //true
 
-    //Returns an iterator over the elements of this object.
+    //Returns an iterator over the elements of this object in forward direction only.
     val numbersIterator = iteratorList.iterator()
     while (numbersIterator.hasNext()) {
         print(numbersIterator.next()) //123456
     }
+    //endregion
+
+    //region listIterator
+    //used basically for go through each element
+    //iterating through lists in both forward and backward directions
+    val list: List<String> = listOf("One", "Two", "Three")
+
+    val iterator = list.listIterator()
+    while (iterator.hasNext()) {
+        println("next ${iterator.next()}")
+    }
+    //endregion
+
+    //region subList
+    //return the list between specified from-index & (to-index - 1)
+    val country = listOf("India","US","UK","Canada","Australia","Russia")
+    val subList = country.subList(fromIndex =  2, toIndex = 4)
+    subList.forEach {
+        println(it)
+//        UK
+//        Canada
+    }
+    //endregion
+
+    //region indices
+    //return index range
+    val collection = listOf('a', 'b', 'c','d','e','f')
+    println(collection.indices) // 0..5
     //endregion
 }
