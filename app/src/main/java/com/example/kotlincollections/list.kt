@@ -101,4 +101,58 @@ fun main() {
     val collection = listOf('a', 'b', 'c','d','e','f')
     println(collection.indices) // 0..5
     //endregion
+
+    //region all
+    //returns true if all elements matching the given elements or list is empty, otherwise false
+    val allListFalse = listOf("1","2","3","4","5")
+    println(allListFalse.all { it == "2" }) //false
+    val allListTrue = listOf("2","2","2","2","2")
+    println(allListTrue.all { it == "2" }) //true
+    val allListEmpty = emptyList<String>()
+    println(allListEmpty.all { it == "2" }) //true
+    //endregion
+
+    //region any
+    //Returns true if array has at least one element, otherwise false (if list is empty then false)
+    val anyListEmpty = emptyList<String>()
+    println(anyListEmpty.any())  //false
+    println(anyListEmpty.any { it == "2" }) //false
+
+    val anyListFalse = listOf("1","2","3","4","5")
+    println(anyListFalse.any())  //true
+    println(anyListFalse.any { it == "2" }) //true
+    //endregion
+
+    //region asIterable
+    //return collection as iterable
+    val asIterableList = listOf("1", "2", "3", "4", "5", "6", "7")
+    println(asIterableList.asIterable().toString())  //[1, 2, 3, 4, 5, 6, 7]
+    asIterableList.asIterable().forEach { print(it) }  //1234567
+    //endregion
+
+    //region asReversed
+    //Returns new reversed read-only collections of the original List
+    val originalAsReversedList = listOf('a', 'b', 'c', 'd', 'e')
+    var copyOriginalAsReversedList = originalAsReversedList.asReversed()
+    println(originalAsReversedList)       //[a, b, c, d, e]
+    println(copyOriginalAsReversedList)   //[e, d, c, b, a]
+
+    val originalAsReversedMutableList = originalAsReversedList.toMutableList()
+    originalAsReversedMutableList.add('f')
+    copyOriginalAsReversedList = originalAsReversedMutableList.asReversed()
+    println(originalAsReversedMutableList)   //[a, b, c, d, e, f]
+    println(copyOriginalAsReversedList)      //[f, e, d, c, b, a]
+    //endregion
+
+    //region asSequence
+    //convert array/list to sequence
+    val arrayToSequence = arrayOf('a', 'b', 'c')
+    println(arrayToSequence.joinToString())                 //a, b, c
+    println(arrayToSequence.asSequence().joinToString())    //a, b, c
+
+    val listToSequence = listOf('a', 'b', 'c')
+    println(listToSequence.asSequence().joinToString())     //a, b, c
+    //endregion
+
+    //associate
 }
