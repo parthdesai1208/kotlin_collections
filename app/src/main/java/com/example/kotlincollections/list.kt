@@ -154,5 +154,125 @@ fun main() {
     println(listToSequence.asSequence().joinToString())     //a, b, c
     //endregion
 
-    //associate
+    //region associate
+    //Returns a Map containing key-value pair
+    val names = listOf("Grace Hopper", "Jacob Bernoulli", "Johann Bernoulli")
+    val byLastName = names.associate { it.split(" ").let { (firstName, lastName) -> lastName to firstName } }
+    // Jacob Bernoulli does not occur in the map because only the last pair with the same key gets added
+    println(byLastName) // {Hopper=Grace, Bernoulli=Johann}
+
+    val names1 = listOf("Grace Hopper", "Jacob Bernoulli1", "Johann Bernoulli2")
+    val byLastName1 = names1.associate { it.split(" ").let { (firstName, lastName) -> lastName to firstName } }
+    //now we have all of the list, because we have "Bernoulli1" & "Bernoulli2" are different words
+     println(byLastName1) //{Hopper=Grace, Bernoulli1=Jacob, Bernoulli2=Johann}
+    //endregion
+
+    //region associateTo
+    //Returns a Map containing key-value pair
+    //same as associate, but apply operation(inside lamda) to "passed map"
+    data class DataClassForAssociateTo(val firstName: String, val lastName: String)
+    val listForAssociateTo = listOf(DataClassForAssociateTo("Grace", "Hopper"), DataClassForAssociateTo("Jacob", "Bernoulli"), DataClassForAssociateTo("Johann", "Bernoulli"))
+    val mapToApplyAssociateToOperation = mutableMapOf<String, String>()
+    listForAssociateTo.associateTo(mapToApplyAssociateToOperation) { it.lastName to it.firstName }
+    println(mapToApplyAssociateToOperation)
+    //endregion
+
+    //region associateBy
+    //Returns a Map containing key-value pair
+    //same as associate, but used it when you want to pass function in key or value param
+    data class DataClassForAssociateBy(val firstName: String, val lastName: String)
+    val listAssociateBy = listOf(
+        DataClassForAssociateBy("John", "Ali"),
+        DataClassForAssociateBy("Naidu", "Tan"),
+        DataClassForAssociateBy("Evgenii", "Dmitry"))
+
+    fun getKey(data: DataClassForAssociateBy): String { return data.firstName.dropLast(2).uppercase() }
+    fun getValue(data: DataClassForAssociateBy): String { return data.lastName.dropLast(2).lowercase() }
+
+    val finalAssociateByList = listAssociateBy.associateBy(::getKey,::getValue)
+    println("Original List")
+    println(listAssociateBy.associate { Pair(it.firstName,it.lastName) })
+    println("After operation List")
+    println("drop last two character & convert to upper,lower")
+    println(finalAssociateByList)
+//    Original List
+//    {John=Ali, Naidu=Tan, Evgenii=Dmitry}
+//    After operation List
+//    drop last two character & convert to upper,lower
+//    {JO=a, NAI=t, EVGEN=dmit}
+
+    val listAssociateBy1 = listOf("John", "Ali", "Naidu", "Tan","Evgenii", "Dmitry")
+    fun getKey1(data: String): String { return data.dropLast(2).uppercase() }
+    val finalAssociateByList1 = listAssociateBy1.associateBy{ getKey1(it) }
+    println("Original List")
+    println(listAssociateBy1.associateWith { it })
+    println("After operation List")
+    println("drop last two character & convert to upper")
+    println(finalAssociateByList1)
+//    Original List
+//    {John=John, Ali=Ali, Naidu=Naidu, Tan=Tan, Evgenii=Evgenii, Dmitry=Dmitry}
+//    After operation List
+//    drop last two character & convert to upper
+//    {JO=John, A=Ali, NAI=Naidu, T=Tan, EVGEN=Evgenii, DMIT=Dmitry}
+    //endregion
+
+    //region associateByTo
+    //Returns a Map containing key-value pair
+    //same as associate, but apply operation
+    data class DataClassForAssociateByTo(val firstName: String, val lastName: String)
+
+    val listAssociateByTo = listOf(
+        DataClassForAssociateByTo("John", "Ali"),
+        DataClassForAssociateByTo("Naidu", "Tan"),
+        DataClassForAssociateByTo("Evgenii", "Dmitry")
+    )
+
+    fun getKey(data: DataClassForAssociateByTo): String {
+        return data.firstName.dropLast(2).uppercase()
+    }
+
+    fun getValue(data: DataClassForAssociateByTo): String {
+        return data.lastName.dropLast(2).lowercase()
+    }
+
+    val finalAssociateByTo = mutableMapOf<String, String>()
+    listAssociateByTo.associateByTo(destination = finalAssociateByTo, keySelector =  { getKey(it) }, valueTransform =  {getValue(it)})
+    println("Original List")
+    println(listAssociateByTo.associate { Pair(it.firstName, it.lastName) })
+    println("After operation List")
+    println("drop last two character & convert to upper,lower")
+    println(finalAssociateByTo)
+//    Original List
+//    {John=Ali, Naidu=Tan, Evgenii=Dmitry}
+//    After operation List
+//    drop last two character & convert to upper,lower
+//    {JO=a, NAI=t, EVGEN=dmit}
+    //endregion
+
+    //region associateWith
+    //Returns a Map containing key-value pair
+    //where key is same as list element & value is produced by value selector(pass inside lambda)
+    val listAssociateWith = listOf("a", "abc", "ab", "def", "abcd")
+    val mapAssociateWith = listAssociateWith.associateWith { it.length }
+    println(mapAssociateWith.keys) // [a, abc, ab, def, abcd]
+    println(mapAssociateWith.values) // [1, 3, 2, 3, 4]
+    //endregion
+
+    //region associateWithTo
+    //Returns a passed Map containing key-value pair
+    //where key is same as list element & value is produced by value selector(pass inside lambda)
+    data class DataClassForAssociateWithTo(val firstName: String, val lastName: String) {
+        override fun toString(): String = "$firstName $lastName" //for simplicity of output
+    }
+
+    val listAssociateWithTo = listOf(
+        DataClassForAssociateWithTo("Grace", "Hopper"),
+        DataClassForAssociateWithTo("Jacob", "Bernoulli"),
+        DataClassForAssociateWithTo("Jacob", "Bernoulli")
+    )
+    val mapAssociateWithTo = mutableMapOf<DataClassForAssociateWithTo, Int>()
+    listAssociateWithTo.associateWithTo(mapAssociateWithTo) { it.firstName.length + it.lastName.length }
+    println(mapAssociateWithTo) //{Grace Hopper=11, Jacob Bernoulli=14}
+    //endregion
+
 }
