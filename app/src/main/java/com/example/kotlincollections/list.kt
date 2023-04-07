@@ -1,9 +1,9 @@
 package com.example.kotlincollections
 
-fun main() {
+fun main1() {
 
     //region basic list things
-    val items = listOf("1st item","2nd item","3rd item","4th item")
+    val items = listOf("1st item", "2nd item", "3rd item", "4th item")
     println(items)
     //[1st item, 2nd item, 3rd item, 4th item]
 
@@ -18,7 +18,7 @@ fun main() {
 //    Fourth element: four
 //    Index of element "two" 1
 
-    val lastIndexOfList = listOf("one","two","three","four","two","five")
+    val lastIndexOfList = listOf("one", "two", "three", "four", "two", "five")
     println(lastIndexOfList.lastIndexOf("two")) //find the last matching element & give index of it
     //4
 
@@ -87,8 +87,8 @@ fun main() {
 
     //region subList
     //return the list between specified from-index & (to-index - 1)
-    val country = listOf("India","US","UK","Canada","Australia","Russia")
-    val subList = country.subList(fromIndex =  2, toIndex = 4)
+    val country = listOf("India", "US", "UK", "Canada", "Australia", "Russia")
+    val subList = country.subList(fromIndex = 2, toIndex = 4)
     subList.forEach {
         println(it)
 //        UK
@@ -98,15 +98,15 @@ fun main() {
 
     //region indices
     //return index range
-    val collection = listOf('a', 'b', 'c','d','e','f')
+    val collection = listOf('a', 'b', 'c', 'd', 'e', 'f')
     println(collection.indices) // 0..5
     //endregion
 
     //region all
     //returns true if all elements matching the given elements or list is empty, otherwise false
-    val allListFalse = listOf("1","2","3","4","5")
+    val allListFalse = listOf("1", "2", "3", "4", "5")
     println(allListFalse.all { it == "2" }) //false
-    val allListTrue = listOf("2","2","2","2","2")
+    val allListTrue = listOf("2", "2", "2", "2", "2")
     println(allListTrue.all { it == "2" }) //true
     val allListEmpty = emptyList<String>()
     println(allListEmpty.all { it == "2" }) //true
@@ -118,7 +118,7 @@ fun main() {
     println(anyListEmpty.any())  //false
     println(anyListEmpty.any { it == "2" }) //false
 
-    val anyListFalse = listOf("1","2","3","4","5")
+    val anyListFalse = listOf("1", "2", "3", "4", "5")
     println(anyListFalse.any())  //true
     println(anyListFalse.any { it == "2" }) //true
     //endregion
@@ -151,27 +151,34 @@ fun main() {
     println(arrayToSequence.asSequence().joinToString())    //a, b, c
 
     val listToSequence = listOf('a', 'b', 'c')
-    println(listToSequence.asSequence().joinToString())     //a, b, c
+    println(listToSequence.joinToString())     //a, b, c
     //endregion
 
     //region associate
     //Returns a Map containing key-value pair
     val names = listOf("Grace Hopper", "Jacob Bernoulli", "Johann Bernoulli")
-    val byLastName = names.associate { it.split(" ").let { (firstName, lastName) -> lastName to firstName } }
+    val byLastName =
+        names.associate { it.split(" ").let { (firstName, lastName) -> lastName to firstName } }
     // Jacob Bernoulli does not occur in the map because only the last pair with the same key gets added
     println(byLastName) // {Hopper=Grace, Bernoulli=Johann}
 
     val names1 = listOf("Grace Hopper", "Jacob Bernoulli1", "Johann Bernoulli2")
-    val byLastName1 = names1.associate { it.split(" ").let { (firstName, lastName) -> lastName to firstName } }
+    val byLastName1 =
+        names1.associate { it.split(" ").let { (firstName, lastName) -> lastName to firstName } }
     //now we have all of the list, because we have "Bernoulli1" & "Bernoulli2" are different words
-     println(byLastName1) //{Hopper=Grace, Bernoulli1=Jacob, Bernoulli2=Johann}
+    println(byLastName1) //{Hopper=Grace, Bernoulli1=Jacob, Bernoulli2=Johann}
     //endregion
 
     //region associateTo
     //Returns a Map containing key-value pair
     //same as associate, but apply operation(inside lamda) to "passed map"
     data class DataClassForAssociateTo(val firstName: String, val lastName: String)
-    val listForAssociateTo = listOf(DataClassForAssociateTo("Grace", "Hopper"), DataClassForAssociateTo("Jacob", "Bernoulli"), DataClassForAssociateTo("Johann", "Bernoulli"))
+
+    val listForAssociateTo = listOf(
+        DataClassForAssociateTo("Grace", "Hopper"),
+        DataClassForAssociateTo("Jacob", "Bernoulli"),
+        DataClassForAssociateTo("Johann", "Bernoulli")
+    )
     val mapToApplyAssociateToOperation = mutableMapOf<String, String>()
     listForAssociateTo.associateTo(mapToApplyAssociateToOperation) { it.lastName to it.firstName }
     println(mapToApplyAssociateToOperation)
@@ -181,17 +188,24 @@ fun main() {
     //Returns a Map containing key-value pair
     //same as associate, but used it when you want to pass function in key or value param
     data class DataClassForAssociateBy(val firstName: String, val lastName: String)
+
     val listAssociateBy = listOf(
         DataClassForAssociateBy("John", "Ali"),
         DataClassForAssociateBy("Naidu", "Tan"),
-        DataClassForAssociateBy("Evgenii", "Dmitry"))
+        DataClassForAssociateBy("Evgenii", "Dmitry")
+    )
 
-    fun getKey(data: DataClassForAssociateBy): String { return data.firstName.dropLast(2).uppercase() }
-    fun getValue(data: DataClassForAssociateBy): String { return data.lastName.dropLast(2).lowercase() }
+    fun getKey(data: DataClassForAssociateBy): String {
+        return data.firstName.dropLast(2).uppercase()
+    }
 
-    val finalAssociateByList = listAssociateBy.associateBy(::getKey,::getValue)
+    fun getValue(data: DataClassForAssociateBy): String {
+        return data.lastName.dropLast(2).lowercase()
+    }
+
+    val finalAssociateByList = listAssociateBy.associateBy(::getKey, ::getValue)
     println("Original List")
-    println(listAssociateBy.associate { Pair(it.firstName,it.lastName) })
+    println(listAssociateBy.associate { Pair(it.firstName, it.lastName) })
     println("After operation List")
     println("drop last two character & convert to upper,lower")
     println(finalAssociateByList)
@@ -201,9 +215,12 @@ fun main() {
 //    drop last two character & convert to upper,lower
 //    {JO=a, NAI=t, EVGEN=dmit}
 
-    val listAssociateBy1 = listOf("John", "Ali", "Naidu", "Tan","Evgenii", "Dmitry")
-    fun getKey1(data: String): String { return data.dropLast(2).uppercase() }
-    val finalAssociateByList1 = listAssociateBy1.associateBy{ getKey1(it) }
+    val listAssociateBy1 = listOf("John", "Ali", "Naidu", "Tan", "Evgenii", "Dmitry")
+    fun getKey1(data: String): String {
+        return data.dropLast(2).uppercase()
+    }
+
+    val finalAssociateByList1 = listAssociateBy1.associateBy { getKey1(it) }
     println("Original List")
     println(listAssociateBy1.associateWith { it })
     println("After operation List")
@@ -236,7 +253,10 @@ fun main() {
     }
 
     val finalAssociateByTo = mutableMapOf<String, String>()
-    listAssociateByTo.associateByTo(destination = finalAssociateByTo, keySelector =  { getKey(it) }, valueTransform =  {getValue(it)})
+    listAssociateByTo.associateByTo(
+        destination = finalAssociateByTo,
+        keySelector = { getKey(it) },
+        valueTransform = { getValue(it) })
     println("Original List")
     println(listAssociateByTo.associate { Pair(it.firstName, it.lastName) })
     println("After operation List")
@@ -274,5 +294,89 @@ fun main() {
     listAssociateWithTo.associateWithTo(mapAssociateWithTo) { it.firstName.length + it.lastName.length }
     println(mapAssociateWithTo) //{Grace Hopper=11, Jacob Bernoulli=14}
     //endregion
+
+    //region average
+    //Returns an average value of elements in the sequence.
+    val listAverage = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+    println(listAverage.average()) //5.5
+    //endregion
+
+    //region chunked
+    //Splits this sequence into a sequence of lists
+    val listChunked = "one two three four five six seven eight nine ten".split(' ')
+    val chunked = listChunked.chunked(3)
+    println(chunked)
+    //[[one, two, three], [four, five, six], [seven, eight, nine], [ten]]
+    val codonTable =
+        mapOf("ATT" to "Isoleucine", "CAA" to "Glutamine", "CGC" to "Arginine", "GGC" to "Glycine")
+    val dnaFragment = "ATTCGCGGCCGCCAA"
+
+    val proteins = dnaFragment.chunked(3) { codon: CharSequence ->
+        codonTable[codon.toString()] ?: error("Unknown codon")
+    }
+
+    println(proteins)
+    //[Isoleucine, Arginine, Glycine, Arginine, Glutamine]
+    //endregion
+
+    //region count
+    //Returns the number of elements in this sequence.
+    val listCount = listOf(1, 2, 3, 4, 4, 5, 5, 45, 45, 54, 5, 45)
+    println(listCount.count()) //12
+
+    println(listCount.count { it == 4 }) //2
+    //since we have 4, 2 times
+    //endregion
+
+    //region distinct
+    //Returns a sequence containing only distinct elements from the given sequence.
+    val listDistinct = listOf('a', 'A', 'b', 'B', 'A', 'a')
+    println(listDistinct.distinct()) //[a, A, b, B]
+    val listDistinctBy = listOf("apple", "banana", "mango", "berry")
+    println(listDistinctBy.distinctBy { it[0] })
+    //[apple, banana, mango]
+    //Since, elements banana and berry have same first character,
+    // these are considered to be same by distinctBy() function.
+    //endregion
+
+    //region drop
+    val charDrop = ('a'..'z').toList()
+    //drop = Returns a list containing all elements except first n elements.
+    println(charDrop.drop(23))          //[x,y,z]
+    //dropping first 23 element here
+
+    //dropLast = Returns a list containing all elements except last n elements.
+    println(charDrop.dropLast(23))      //[a,b,c]
+    //dropping last 23 element
+
+    //dropWhile = Returns a list containing all elements except first elements that satisfy the given condition
+    println(charDrop.dropWhile { it < 'x' })    //[x,y,z]
+    //dropping first element which satisfy condition
+
+    //dropLastWhile = Returns a list containing all elements except last elements that satisfy the given condition
+    println(charDrop.dropLastWhile { it > 'c' }) // [a, b, c]
+    //dropping last element which satisfy condition
+    //endregion
+
+    //region elementAt
+    //Returns an element at the given index or throws an IndexOutOfBoundsException
+    val listElementAt = listOf(1, 2, 3)
+    println(listElementAt.elementAt(0)) // 1
+    //Returns an element at the given index or null if the index is out of bounds
+    println(listElementAt.elementAtOrNull(3)) //null
+    //Returns an element at the given index or defaultValue function if the index is out of bounds
+    println(listElementAt.elementAtOrElse(index = 3, defaultValue = { 500 })) //500
+    //endregion
+
+    //region emptySequence
+    //Returns an empty sequence.
+    val valEmptySequence = emptySequence<String>()
+    println(valEmptySequence) //kotlin.sequences.EmptySequence@2acf57e3
+    //endregion
+
+
+}
+
+fun main() {
 
 }
