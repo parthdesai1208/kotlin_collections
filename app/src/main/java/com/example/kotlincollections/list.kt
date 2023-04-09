@@ -374,7 +374,47 @@ fun main1() {
     println(valEmptySequence) //kotlin.sequences.EmptySequence@2acf57e3
     //endregion
 
+    //region filter
+    //Returns a sequence containing only elements matching the given condition
+    val listFilter = listOf(1, 2, 3, 4, 5, 6, 7)
+    println(listFilter.filter { it % 2 == 0 }) //[2, 4, 6]
+    //region filterIsInstance
+    //Returns a list containing all elements that are instances of specified type parameter R.
+    open class Animal(val name: String) {
+        override fun toString(): String {
+            return name
+        }
+    }
 
+    class Dog(name: String) : Animal(name)
+    class Cat(name: String) : Animal(name)
+
+    val animals = listOf(Cat("I am Cat"), Dog("I am Dog"))
+    val cats = animals.filterIsInstance<Cat>()
+    //we can use it like this
+    //val cats = animals.filterIsInstance(Cat::class.java)
+    println(cats) //[I am Cat]
+    val dogs = animals.filterIsInstance<Dog>()
+    //we can use it like this
+    //val dogs = animals.filterIsInstance(Dog::class.java)
+    println(dogs) //[I am Dog]
+    //endregion
+    //region filterIndexed
+    //Returns a list containing only elements matching the given condition, we get index as well
+    val listFilterIndexed = listOf(0, 1, 2, 3, 4, 8, 6)
+    println(listFilterIndexed.filterIndexed { index, i -> index == i }) // [0, 1, 2, 3, 4, 6] (8 is not matching the index)
+    //endregion
+    //region filterIndexedTo
+    //Appends all elements to new list, matching the given condition
+    val listFilterIndexedTo = listOf(0, 1, 2, 3, 4, 8, 6)
+    val numbersOnSameIndexAsValue = mutableListOf<Int>()
+    println(numbersOnSameIndexAsValue) // []
+
+    listFilterIndexedTo.filterIndexedTo(numbersOnSameIndexAsValue) { index, i -> index == i }
+    println(numbersOnSameIndexAsValue) // [0, 1, 2, 3, 4, 6]
+    //endregion
+
+    //endregion
 }
 
 fun main() {
