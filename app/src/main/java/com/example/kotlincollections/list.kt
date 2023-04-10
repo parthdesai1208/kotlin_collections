@@ -378,6 +378,33 @@ fun main1() {
     //Returns a sequence containing only elements matching the given condition
     val listFilter = listOf(1, 2, 3, 4, 5, 6, 7)
     println(listFilter.filter { it % 2 == 0 }) //[2, 4, 6]
+    //region filterTo
+    val listFilterTo = mutableListOf<Int>()
+    println(listFilter.filterTo(destination = listFilterTo){ it % 2 == 0 })
+    //endregion
+    //region filterNot
+    //Returns a list containing all elements not matching the given condition
+    println(listFilter.filterNot { it % 3 == 0 })   //[1, 2, 4, 5, 7]
+    //endregion
+    //region filterNotTo
+    //write to list containing all element not matching the given condition
+    val listFilterNotTo = mutableListOf<Int>()
+    println(listFilter) //[]
+    listFilter.filterNotTo(destination = listFilterNotTo){ it % 3 == 0 }
+    println(listFilter) //[1,2,4,5,7]
+    //endregion
+    //region filterNotNull
+    //Returns a list containing all elements that are not null
+    val listFilterNotNull = listOf(1,2,null,3)
+    println(listFilterNotNull.filterNotNull()) //[1,2,3]
+    //endregion
+    //region filterNotNullTo
+    //write to list which contains all elements that are not null
+    val listFilterNotNullTo = mutableListOf<Int>()
+    println(listFilterNotNullTo)    //[]
+    listFilterNotNull.filterNotNullTo(destination = listFilterNotNullTo)
+    println(listFilterNotNullTo)    //[1, 2, 3]
+    //endregion
     //region filterIsInstance
     //Returns a list containing all elements that are instances of specified type parameter R.
     open class Animal(val name: String) {
@@ -399,6 +426,13 @@ fun main1() {
     //val dogs = animals.filterIsInstance(Dog::class.java)
     println(dogs) //[I am Dog]
     //endregion
+    //region filterIsInstanceTo
+    //write to another list which containing all elements that are instances of specified type parameter R.
+    val catsFilterIsInstanceTo = mutableListOf<Cat>()
+    println(catsFilterIsInstanceTo) // []
+    animals.filterIsInstanceTo(destination = catsFilterIsInstanceTo)
+    println(catsFilterIsInstanceTo) // [I am Cat]
+    //endregion
     //region filterIndexed
     //Returns a list containing only elements matching the given condition, we get index as well
     val listFilterIndexed = listOf(0, 1, 2, 3, 4, 8, 6)
@@ -413,10 +447,13 @@ fun main1() {
     listFilterIndexedTo.filterIndexedTo(numbersOnSameIndexAsValue) { index, i -> index == i }
     println(numbersOnSameIndexAsValue) // [0, 1, 2, 3, 4, 6]
     //endregion
-
     //endregion
 }
 
 fun main() {
-
+    val listFilter = listOf(1, 2, 3, 4, 5, 6, 7)
+    val listFilterNotTo = mutableListOf<Int>()
+    println(listFilterNotTo) //[]
+    listFilter.filterNotTo(destination = listFilterNotTo){ it % 3 == 0 }
+    println(listFilterNotTo) //[]
 }
