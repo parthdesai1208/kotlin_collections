@@ -448,12 +448,72 @@ fun main1() {
     println(numbersOnSameIndexAsValue) // [0, 1, 2, 3, 4, 6]
     //endregion
     //endregion
+
+    //region find
+    //Returns the first element matching the given condition, or null if no such element was found.
+    val listFind = listOf(1,2,3,4,5,6,7,8,9,10)
+    println(listFind.find { it == 2 })  //2
+    println(listFind.find { it == 12 }) //null
+
+    //Returns the last element matching the given condition, or null if no such element was found.
+    println(listFind.findLast { it % 2 == 0 }) //10
+    //endregion
+
+    //region first
+    val listFirst = listOf("first string","second first string","third string","fourth string","fifth string")
+    //Returns first element.
+    println(listFirst.first()) //first string
+    //Returns the first element matching the given condition
+    println(listFirst.first { it.contains("first") }) //first string
+    println(listFirst.first { it.contains("seven") }) //throws exception
+    //Returns the first element, or null if the list is empty.
+    println(listFirst.firstOrNull())
+    //Returns the first element matching the given condition, or null if element was not found.
+    println(listFirst.firstOrNull { it.contains("seven") })
+    //return first non-null value produced by provided transformation function
+    println(listFirst.firstNotNullOfOrNull { if(it == "first string") "first" else "not found" }) //first
+    println(listFirst.firstNotNullOfOrNull { if(it == "fifth string") "first" else "not found" }) //not found
+    //endregion
+
+    //region flatMap
+    //return list contains single element which produced by given transformation function
+    val listFlatMap = listOf("kotlin","collection")
+    println(listFlatMap.flatMap { it.toList() })    //[k, o, t, l, i, n, c, o, l, l, e, c, t, i, o, n]
+    val listFlatMap1 = listOf(1,2,3,4,5)
+    println(listFlatMap1.flatMap { listOf(it,it * 2) }) //[1, 2, 2, 4, 3, 6, 4, 8, 5, 10]
+    //region flatMapTo
+    //write to new list, containing single element which produced by given transformation function
+    val listToWrite_flatMap = mutableListOf<Char>()
+    println(listToWrite_flatMap)                        //[]
+    listFlatMap.flatMapTo(destination = listToWrite_flatMap) { ("it.").toList() }
+    println(listToWrite_flatMap)                        //[k, o, t, l, i, n, ., c, o, l, l, e, c, t, i, o, n, .]
+    //endregion
+    //region flatMapIndexed
+    //same as flatMap but also gives you index
+    println(listFlatMap.flatMapIndexed { index: Int, s: String ->
+        if(index % 2 == 0){
+            listOf("$s even index")
+        }else{
+            listOf("$s odd index")
+        }
+    }) //[kotlin even index, collection odd index]
+    //endregion
+    //region flatMapIndexedTo
+    //write to new list & same as flatMapIndexed
+    val listToWrite_flatMapIndexed = mutableListOf<String>()
+    println(listToWrite_flatMapIndexed)     //[]
+    listFlatMap.flatMapIndexedTo(destination = listToWrite_flatMapIndexed, transform = { index : Int, s : String ->
+        if(index % 2 == 0){
+            listOf("$s even index")
+        }else{
+            listOf("$s odd index")
+        }
+    })
+    println(listToWrite_flatMapIndexed)     //[kotlin even index, collection odd index]
+    //endregion
+    //endregion
 }
 
 fun main() {
-    val listFilter = listOf(1, 2, 3, 4, 5, 6, 7)
-    val listFilterNotTo = mutableListOf<Int>()
-    println(listFilterNotTo) //[]
-    listFilter.filterNotTo(destination = listFilterNotTo){ it % 3 == 0 }
-    println(listFilterNotTo) //[]
+
 }
