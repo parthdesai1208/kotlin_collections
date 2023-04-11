@@ -380,7 +380,7 @@ fun main1() {
     println(listFilter.filter { it % 2 == 0 }) //[2, 4, 6]
     //region filterTo
     val listFilterTo = mutableListOf<Int>()
-    println(listFilter.filterTo(destination = listFilterTo){ it % 2 == 0 })
+    println(listFilter.filterTo(destination = listFilterTo) { it % 2 == 0 })
     //endregion
     //region filterNot
     //Returns a list containing all elements not matching the given condition
@@ -390,12 +390,12 @@ fun main1() {
     //write to list containing all element not matching the given condition
     val listFilterNotTo = mutableListOf<Int>()
     println(listFilter) //[]
-    listFilter.filterNotTo(destination = listFilterNotTo){ it % 3 == 0 }
+    listFilter.filterNotTo(destination = listFilterNotTo) { it % 3 == 0 }
     println(listFilter) //[1,2,4,5,7]
     //endregion
     //region filterNotNull
     //Returns a list containing all elements that are not null
-    val listFilterNotNull = listOf(1,2,null,3)
+    val listFilterNotNull = listOf(1, 2, null, 3)
     println(listFilterNotNull.filterNotNull()) //[1,2,3]
     //endregion
     //region filterNotNullTo
@@ -451,7 +451,7 @@ fun main1() {
 
     //region find
     //Returns the first element matching the given condition, or null if no such element was found.
-    val listFind = listOf(1,2,3,4,5,6,7,8,9,10)
+    val listFind = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
     println(listFind.find { it == 2 })  //2
     println(listFind.find { it == 12 }) //null
 
@@ -460,7 +460,13 @@ fun main1() {
     //endregion
 
     //region first
-    val listFirst = listOf("first string","second first string","third string","fourth string","fifth string")
+    val listFirst = listOf(
+        "first string",
+        "second first string",
+        "third string",
+        "fourth string",
+        "fifth string"
+    )
     //Returns first element.
     println(listFirst.first()) //first string
     //Returns the first element matching the given condition
@@ -471,16 +477,15 @@ fun main1() {
     //Returns the first element matching the given condition, or null if element was not found.
     println(listFirst.firstOrNull { it.contains("seven") })
     //return first non-null value produced by provided transformation function
-    println(listFirst.firstNotNullOfOrNull { if(it == "first string") "first" else "not found" }) //first
-    println(listFirst.firstNotNullOfOrNull { if(it == "fifth string") "first" else "not found" }) //not found
+    println(listFirst.firstNotNullOfOrNull { if (it == "first string") "first" else "not found" }) //first
+    println(listFirst.firstNotNullOfOrNull { if (it == "fifth string") "first" else "not found" }) //not found
     //endregion
-
     //region flatMap
     //return list contains single element which produced by given transformation function
-    val listFlatMap = listOf("kotlin","collection")
+    val listFlatMap = listOf("kotlin", "collection")
     println(listFlatMap.flatMap { it.toList() })    //[k, o, t, l, i, n, c, o, l, l, e, c, t, i, o, n]
-    val listFlatMap1 = listOf(1,2,3,4,5)
-    println(listFlatMap1.flatMap { listOf(it,it * 2) }) //[1, 2, 2, 4, 3, 6, 4, 8, 5, 10]
+    val listFlatMap1 = listOf(1, 2, 3, 4, 5)
+    println(listFlatMap1.flatMap { listOf(it, it * 2) }) //[1, 2, 2, 4, 3, 6, 4, 8, 5, 10]
     //region flatMapTo
     //write to new list, containing single element which produced by given transformation function
     val listToWrite_flatMap = mutableListOf<Char>()
@@ -491,9 +496,9 @@ fun main1() {
     //region flatMapIndexed
     //same as flatMap but also gives you index
     println(listFlatMap.flatMapIndexed { index: Int, s: String ->
-        if(index % 2 == 0){
+        if (index % 2 == 0) {
             listOf("$s even index")
-        }else{
+        } else {
             listOf("$s odd index")
         }
     }) //[kotlin even index, collection odd index]
@@ -502,13 +507,15 @@ fun main1() {
     //write to new list & same as flatMapIndexed
     val listToWrite_flatMapIndexed = mutableListOf<String>()
     println(listToWrite_flatMapIndexed)     //[]
-    listFlatMap.flatMapIndexedTo(destination = listToWrite_flatMapIndexed, transform = { index : Int, s : String ->
-        if(index % 2 == 0){
-            listOf("$s even index")
-        }else{
-            listOf("$s odd index")
-        }
-    })
+    listFlatMap.flatMapIndexedTo(
+        destination = listToWrite_flatMapIndexed,
+        transform = { index: Int, s: String ->
+            if (index % 2 == 0) {
+                listOf("$s even index")
+            } else {
+                listOf("$s odd index")
+            }
+        })
     println(listToWrite_flatMapIndexed)     //[kotlin even index, collection odd index]
     //endregion
     //endregion
@@ -525,8 +532,60 @@ fun main1() {
     val flattenList = listOf(listOf(1), listOf(2, 3), listOf(4, 5, 6))
     println(flattenList.flatten()) // [1, 2, 3, 4, 5, 6]
     //endregion
+    //region fold
+    //returns Map<K,R> where K is group key which is invoked by initialValueSelector function
+    //R is accumulator which is produced by operation function
+    val fruits = listOf("cherry", "blueberry", "citrus", "apple", "apricot", "banana", "coconut")
 
-    
+    val evenFruits = fruits.groupingBy { it.first() }       //first() return 1st character
+        .fold(
+            initialValueSelector = { key, _ -> key to mutableListOf<String>() },
+            operation = { _, accumulator, element ->
+                accumulator.also { (_, list) -> if (element.length % 2 == 0) list.add(element) }
+            })
+
+    val sorted = evenFruits.values.sortedBy { it.first }  //first - return first(A) of Pair<A,B>
+    println(evenFruits.keys.sortedBy { it }) //[a,b,c]
+    println(sorted) // [(a, []), (b, [banana]), (c, [cherry, citrus])]
+    //endregion
+
+    //region foldTo
+    val listFoldTo = fruits.groupingBy { it.first() }       //first() return 1st character
+        .foldTo(destination = mutableMapOf(),
+            initialValueSelector = { key, _ -> key to mutableListOf<String>() },
+            operation = { _, accumulator, element ->
+                accumulator.also { (_, list) -> if (element.length % 2 == 0) list.add(element) }
+            })
+
+    val sortedFoldTo = listFoldTo.values.sortedBy { it.first }  //first - return first(A) of Pair<A,B>
+    println(sortedFoldTo) //[(a, []), (b, [banana]), (c, [cherry, citrus])]
+    //endregion
+
+    //region foldIndexed
+    //returns data type which is passed to initial
+    //execute from right to left as index first
+    //then default value as accumulator
+    //then value from left to right
+    val listFoldIndexed = listOf(1, 2, 3, 4, 5)
+    println(listFoldIndexed.foldIndexed(initial = "0", operation = { index, accumulator, value ->
+        "$index. $accumulator - $value"
+    }))                                 //4. 3. 2. 1. 0. 0 - 1 - 2 - 3 - 4 - 5
+    //endregion
+    //region foldRight
+    //execute from left to right as accumulator
+    //then default value which passed in initial as value
+    println(listFoldIndexed.foldRight(initial = "0", operation = { accumulator, value ->
+        "$accumulator acc - $value val"
+    }))                           //1 acc - 2 acc - 3 acc - 4 acc - 5 acc - 0 val val val val val
+    //endregion
+    //region foldRightIndexed
+    //same as foldRight + index
+    println(listFoldIndexed.foldRightIndexed(initial = "0", operation = {index, accumulator, value ->
+        "$index. $accumulator acc - $value val"
+    }))             //0. 1 acc - 1. 2 acc - 2. 3 acc - 3. 4 acc - 4. 5 acc - 0 val val val val val
+    //endregion
+
+
 }
 
 fun main() {
