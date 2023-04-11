@@ -512,6 +512,21 @@ fun main1() {
     println(listToWrite_flatMapIndexed)     //[kotlin even index, collection odd index]
     //endregion
     //endregion
+    //region flatten
+    //Returns a single list of all elements from all collections in the given collection
+    val flattenArray = arrayOf(
+        arrayOf(1),
+        arrayOf(2, 3),
+        arrayOf(4, 5, 6)
+    )
+
+    println(flattenArray.flatten()) // [1, 2, 3, 4, 5, 6]
+
+    val flattenList = listOf(listOf(1), listOf(2, 3), listOf(4, 5, 6))
+    println(flattenList.flatten()) // [1, 2, 3, 4, 5, 6]
+    //endregion
+
+    
 }
 
 fun main() {
