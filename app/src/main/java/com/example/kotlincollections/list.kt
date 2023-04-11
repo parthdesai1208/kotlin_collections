@@ -585,7 +585,15 @@ fun main1() {
     }))             //0. 1 acc - 1. 2 acc - 2. 3 acc - 3. 4 acc - 4. 5 acc - 0 val val val val val
     //endregion
 
-
+    //region forEach & forEachIndexed
+    val listForEach = listOf(1,2,3,4,5,6,7)
+    listForEach.forEach {
+        print(it) //1234567
+    }
+    listForEach.forEachIndexed { index, i ->
+        print("$index : $i ")  //0 : 1 1 : 2 2 : 3 3 : 4 4 : 5 5 : 6 6 : 7
+    }
+    //endregion
 }
 
 fun main() {
