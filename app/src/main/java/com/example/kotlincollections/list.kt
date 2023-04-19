@@ -594,6 +594,28 @@ fun main1() {
         print("$index : $i ")  //0 : 1 1 : 2 2 : 3 3 : 4 4 : 5 5 : 6 6 : 7
     }
     //endregion
+
+    //region getOrElse
+    //return element at index else defaultValue for List
+    val listGetOrElse = listOf(1,2,3,4)
+    println(listGetOrElse.getOrElse(index = 1, defaultValue = {10}))  //2
+
+    val emptyListGetOrElse = emptyList<String>()
+    println(emptyListGetOrElse.getOrElse(index = 10, defaultValue = {1000})) //1000
+
+    val mapGetOrElse = mapOf(1 to "first",2 to "second",3 to "third",4 to "four")
+    println(mapGetOrElse.getOrElse(key = 2, defaultValue = {"default value"})) //second
+
+    val emptyMapGetOrElse = emptyMap<Int,String>()
+    println(emptyMapGetOrElse.getOrElse(key = 10, defaultValue = {"default value"})) //default value
+    //endregion
+
+    //region getOrNull
+    //return element at index else null
+    val listGetOrNull = listOf(1,2,3)
+    println(listGetOrNull.getOrNull(index = 0)) //1
+    println(listGetOrNull.getOrNull(index = 3)) //null
+    //endregion
 }
 
 fun main() {
