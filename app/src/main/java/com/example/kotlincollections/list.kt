@@ -616,6 +616,35 @@ fun main1() {
     println(listGetOrNull.getOrNull(index = 0)) //1
     println(listGetOrNull.getOrNull(index = 3)) //null
     //endregion
+
+    //region groupBy
+    //return map as key from keySelector operation &
+    //              value from valueTransform operation
+    //           if valueTransform not provided then original list is printed
+    val listGroupBy = listOf("a","ab","abc","abcd")
+    val groupByMap = listGroupBy.groupBy(keySelector = { it.length })
+    println(groupByMap) //{1=[a], 2=[ab], 3=[abc], 4=[abcd]}
+
+    val listGroupBy1 = listOf(1 to "A",2 to "B",3 to "c",4 to "A")
+    val groupByMap1 = listGroupBy1.groupBy(keySelector =  {it.second}, valueTransform =  {it.first})
+    println(groupByMap1) //{A=[1, 4], B=[2], c=[3]}
+    //endregion
+
+    //region groupByTo
+    //same as groupBy but apply to map
+    val mapFromGroupByTo = mutableMapOf<Int,MutableList<String>>()
+    listGroupBy.groupByTo(destination = mapFromGroupByTo, keySelector = {it.length})
+    println(mapFromGroupByTo) //{1=[a], 2=[ab], 3=[abc], 4=[abcd]}
+    //endregion
+
+    //region groupingBy
+    //return map as key from keySelector operation &
+    //              value from appending to keySelector operation
+    val words = "one two three four five six seven eight nine ten".split(' ')
+    val firstCharWithCount = words.groupingBy(keySelector = { it.first() }).eachCount()
+    println(firstCharWithCount) //{o=1, t=3, f=2, s=2, e=1, n=1}
+    //endregion
+
 }
 
 fun main() {
