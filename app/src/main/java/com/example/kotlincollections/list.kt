@@ -405,7 +405,7 @@ fun main1() {
     println(listFilterIndexed.filterIndexed { index, i -> index == i }) // [0, 1, 2, 3, 4, 6] (8 is not matching the index)
     //endregion
     //region filterIndexedTo
-    //Appends all elements to new list, matching the given condition
+    //fill all elements to new list, matching the given condition
     val listFilterIndexedTo = listOf(0, 1, 2, 3, 4, 8, 6)
     val numbersOnSameIndexAsValue = mutableListOf<Int>()
     println(numbersOnSameIndexAsValue) // []
@@ -413,7 +413,45 @@ fun main1() {
     listFilterIndexedTo.filterIndexedTo(numbersOnSameIndexAsValue) { index, i -> index == i }
     println(numbersOnSameIndexAsValue) // [0, 1, 2, 3, 4, 6]
     //endregion
-
+    //region filterIsInstance
+    //gives sequence containing all elements that are instances of specified type parameter
+    val filterIsInstanceList: List<Any> = listOf(1, "apple", 2.5, "banana", 3, "cherry")
+    val stringList: List<String> = filterIsInstanceList.filterIsInstance<String>()
+    println(stringList) //[apple, banana, cherry]
+    //endregion
+    //region filterIsInstanceTo
+    //fill to new list, matching given "klass" specified
+    val mixedList: List<Any> = listOf(1, "Hello", 3.14, true, "world")
+    val filterIsInstanceToList = mixedList.filterIsInstanceTo(destination = mutableListOf(), klass = String::class.java)
+    println(filterIsInstanceToList) //[Hello, world]
+    //endregion
+    //region filterNot
+    //Returns a sequence containing all elements not matching the given predicate
+    val filterNotList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+    val filterNotList1 = filterNotList.filterNot { it % 2 == 0 }
+    println(filterNotList1) // Output: [1, 3, 5, 7, 9]
+    //endregion
+    //region filterNotNull
+    //Returns a sequence containing all elements that are not null
+    val nullableList: List<Int?> = listOf(1, null, 2, null, 3, 4, null)
+    val filterNotNullList: List<Int> = nullableList.filterNotNull()
+    println(filterNotNullList) // Output: [1, 2, 3, 4]
+    //endregion
+    //region filterNotNullTo
+    //Appends all elements that are not null to the given destination
+    val filterNotNullToList: MutableList<Int> = mutableListOf()
+    nullableList.filterNotNullTo(filterNotNullToList)
+    println(filterNotNullToList) // This will print: [1, 2, 3, 4]
+    //endregion
+    //region filterNotTo
+    //Appends all elements not matching the given predicate to the given destination.
+    val intNumbers: List<Int> = listOf(1, 2, 3, 4, 5, 6, 7)
+    val evenNumbers = mutableListOf<Int>()
+    val notMultiplesOf3 = mutableListOf<Int>()
+    intNumbers.filterTo(evenNumbers) { it % 2 == 0 }
+    intNumbers.filterNotTo(notMultiplesOf3) { number -> number % 3 == 0 }
+    println(evenNumbers) // [2, 4, 6]
+    println(notMultiplesOf3) // [1, 2, 4, 5, 7]
     //endregion
 }
 
