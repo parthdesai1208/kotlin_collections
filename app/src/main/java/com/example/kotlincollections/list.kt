@@ -487,6 +487,7 @@ fun main1() {
     println(evenNumbers) // [2, 4, 6]
     println(notMultiplesOf3) // [1, 2, 4, 5, 7]
     //endregion
+    //endregion
 
     //region find
     //Returns the first element matching the given condition, or null if no such element was found.
