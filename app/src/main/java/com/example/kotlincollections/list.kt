@@ -19,12 +19,12 @@ fun main1() {
 //    Index of element "two" 1
     //region indexOfFirst
     //Returns index of the first element matching the given predicate
-    val indexOfFirstList = listOf(1,2,3,3,4,4,4,5,5)
+    val indexOfFirstList = listOf(1, 2, 3, 3, 4, 4, 4, 5, 5)
     println(indexOfFirstList.indexOfFirst { it == 3 }) //2
     //endregion
     //region indexOfLast
     //Returns index of the last element matching the given predicate
-    val indexOfLastList = listOf(1,2,3,3,4,4,4,5,5)
+    val indexOfLastList = listOf(1, 2, 3, 3, 4, 4, 4, 5, 5)
     println(indexOfLastList.indexOfLast { it == 4 }) //6
     //endregion
     //region intersect
@@ -66,13 +66,15 @@ fun main1() {
     println(containsAllList.containsAll(smallList2)) //false
     //endregion
 
-    //region isEmpty
-    //if the collection is empty then true
-    //otherwise false
+    //region isEmpty and isNotEmpty
+    //isEmpty() =  if the collection is empty then true otherwise false
+    //isNotEmpty() = if the collection is not empty then true otherwise false
     val isEmptyList = listOf(1, 2, 3, 4)
     println(isEmptyList.isEmpty()) //false
+    println(isEmptyList.isNotEmpty()) //true
     val isEmptyList1 = emptyList<Byte>()
     println(isEmptyList1.isEmpty()) //true
+    println(isEmptyList1.isNotEmpty()) //false
     //endregion
 
     //region ifEmpty
@@ -465,7 +467,8 @@ fun main1() {
     //region filterIsInstanceTo
     //fill to new list, matching given "klass" specified
     val mixedList: List<Any> = listOf(1, "Hello", 3.14, true, "world")
-    val filterIsInstanceToList = mixedList.filterIsInstanceTo(destination = mutableListOf(), klass = String::class.java)
+    val filterIsInstanceToList =
+        mixedList.filterIsInstanceTo(destination = mutableListOf(), klass = String::class.java)
     println(filterIsInstanceToList) //[Hello, world]
     //endregion
     //endregion
@@ -578,7 +581,8 @@ fun main1() {
                 accumulator.also { (_, list) -> if (element.length % 2 == 0) list.add(element) }
             })
 
-    val sortedFoldTo = listFoldTo.values.sortedBy { it.first }  //first - return first(A) of Pair<A,B>
+    val sortedFoldTo =
+        listFoldTo.values.sortedBy { it.first }  //first - return first(A) of Pair<A,B>
     println(sortedFoldTo) //[(a, []), (b, [banana]), (c, [cherry, citrus])]
     //endregion
 
@@ -601,13 +605,17 @@ fun main1() {
     //endregion
     //region foldRightIndexed
     //same as foldRight + index
-    println(listFoldIndexed.foldRightIndexed(initial = "0", operation = {index, accumulator, value ->
-        "$index. $accumulator acc - $value val"
-    }))             //0. 1 acc - 1. 2 acc - 2. 3 acc - 3. 4 acc - 4. 5 acc - 0 val val val val val
+    println(
+        listFoldIndexed.foldRightIndexed(
+            initial = "0",
+            operation = { index, accumulator, value ->
+                "$index. $accumulator acc - $value val"
+            })
+    )             //0. 1 acc - 1. 2 acc - 2. 3 acc - 3. 4 acc - 4. 5 acc - 0 val val val val val
     //endregion
 
     //region forEach & forEachIndexed
-    val listForEach = listOf(1,2,3,4,5,6,7)
+    val listForEach = listOf(1, 2, 3, 4, 5, 6, 7)
     listForEach.forEach {
         print(it) //1234567
     }
@@ -618,22 +626,26 @@ fun main1() {
 
     //region getOrElse
     //return element at index else defaultValue for List
-    val listGetOrElse = listOf(1,2,3,4)
-    println(listGetOrElse.getOrElse(index = 1, defaultValue = {10}))  //2
+    val listGetOrElse = listOf(1, 2, 3, 4)
+    println(listGetOrElse.getOrElse(index = 1, defaultValue = { 10 }))  //2
 
     val emptyListGetOrElse = emptyList<String>()
-    println(emptyListGetOrElse.getOrElse(index = 10, defaultValue = {1000})) //1000
+    println(emptyListGetOrElse.getOrElse(index = 10, defaultValue = { 1000 })) //1000
 
-    val mapGetOrElse = mapOf(1 to "first",2 to "second",3 to "third",4 to "four")
-    println(mapGetOrElse.getOrElse(key = 2, defaultValue = {"default value"})) //second
+    val mapGetOrElse = mapOf(1 to "first", 2 to "second", 3 to "third", 4 to "four")
+    println(mapGetOrElse.getOrElse(key = 2, defaultValue = { "default value" })) //second
 
-    val emptyMapGetOrElse = emptyMap<Int,String>()
-    println(emptyMapGetOrElse.getOrElse(key = 10, defaultValue = {"default value"})) //default value
+    val emptyMapGetOrElse = emptyMap<Int, String>()
+    println(
+        emptyMapGetOrElse.getOrElse(
+            key = 10,
+            defaultValue = { "default value" })
+    ) //default value
     //endregion
 
     //region getOrNull
     //return element at index else null
-    val listGetOrNull = listOf(1,2,3)
+    val listGetOrNull = listOf(1, 2, 3)
     println(listGetOrNull.getOrNull(index = 0)) //1
     println(listGetOrNull.getOrNull(index = 3)) //null
     //endregion
@@ -642,19 +654,20 @@ fun main1() {
     //return map as key from keySelector operation &
     //              value from valueTransform operation
     //           if valueTransform not provided then original list is printed
-    val listGroupBy = listOf("a","ab","abc","abcd")
+    val listGroupBy = listOf("a", "ab", "abc", "abcd")
     val groupByMap = listGroupBy.groupBy(keySelector = { it.length })
     println(groupByMap) //{1=[a], 2=[ab], 3=[abc], 4=[abcd]}
 
-    val listGroupBy1 = listOf(1 to "A",2 to "B",3 to "c",4 to "A")
-    val groupByMap1 = listGroupBy1.groupBy(keySelector =  {it.second}, valueTransform =  {it.first})
+    val listGroupBy1 = listOf(1 to "A", 2 to "B", 3 to "c", 4 to "A")
+    val groupByMap1 =
+        listGroupBy1.groupBy(keySelector = { it.second }, valueTransform = { it.first })
     println(groupByMap1) //{A=[1, 4], B=[2], c=[3]}
     //endregion
 
     //region groupByTo
     //same as groupBy but apply to map
-    val mapFromGroupByTo = mutableMapOf<Int,MutableList<String>>()
-    listGroupBy.groupByTo(destination = mapFromGroupByTo, keySelector = {it.length})
+    val mapFromGroupByTo = mutableMapOf<Int, MutableList<String>>()
+    listGroupBy.groupByTo(destination = mapFromGroupByTo, keySelector = { it.length })
     println(mapFromGroupByTo) //{1=[a], 2=[ab], 3=[abc], 4=[abcd]}
     //endregion
 
