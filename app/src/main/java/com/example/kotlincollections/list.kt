@@ -17,7 +17,23 @@ fun main1() {
 //    Third element: three
 //    Fourth element: four
 //    Index of element "two" 1
-
+    //region indexOfFirst
+    //Returns index of the first element matching the given predicate
+    val indexOfFirstList = listOf(1,2,3,3,4,4,4,5,5)
+    println(indexOfFirstList.indexOfFirst { it == 3 }) //2
+    //endregion
+    //region indexOfLast
+    //Returns index of the last element matching the given predicate
+    val indexOfLastList = listOf(1,2,3,3,4,4,4,5,5)
+    println(indexOfLastList.indexOfLast { it == 4 }) //6
+    //endregion
+    //region intersect
+    //Returns a set containing all elements that are contained by both collections
+    val intersectList1 = listOf(1, 2, 3, 4, 5)
+    val intersectList2 = listOf(3, 4, 5, 6, 7)
+    val intersectList = intersectList1.intersect(intersectList2)
+    println(intersectList) //[3, 4, 5]
+    //endregion
     val lastIndexOfList = listOf("one", "two", "three", "four", "two", "five")
     println(lastIndexOfList.lastIndexOf("two")) //find the last matching element & give index of it
     //4
