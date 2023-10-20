@@ -721,7 +721,19 @@ fun main1() {
         //An existing string and a list: [2$4$6$8$10$?]
     )
     //endregion
-
+    //region joinToString
+    //Creates a string from all the elements separated using separator and using the given prefix and postfix if supplied.
+    val joinToStringList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+    println(
+        joinToStringList.joinToString(
+            separator = "$",
+            prefix = "[",
+            postfix = "]",
+            limit = 5,
+            truncated = "?",
+            transform = { (it * 2).toString() }
+        )) //[2$4$6$8$10$?]
+    //endregion
 }
 
 fun main() {
