@@ -59,6 +59,18 @@ fun main1() {
     println(isEmptyList1.isEmpty()) //true
     //endregion
 
+    //region ifEmpty
+    //Returns this array if it's not empty or the result inside lambda
+    var ifEmptyCollection = listOf(1, 2, 3)
+    ifEmptyCollection.ifEmpty { println("The list is empty.") }
+    println(ifEmptyCollection) //[1, 2, 3]
+    ifEmptyCollection = emptyList()
+    ifEmptyCollection.ifEmpty { println("The list is empty now") }
+
+    //[1, 2, 3]
+    //The list is empty now
+    //endregion
+
     //region iterator
     val iteratorList = listOf(1, 2, 3, 4, 5, 6)
     //Returns the next element in the iteration.
@@ -637,6 +649,21 @@ fun main1() {
     val firstCharWithCount = words.groupingBy(keySelector = { it.first() }).eachCount()
     println(firstCharWithCount) //{o=1, t=3, f=2, s=2, e=1, n=1}
     //endregion
+
+    //region hashMapOf
+    //Returns an empty new HashMap
+    val varHashMapOf: HashMap<Int, String> = hashMapOf(1 to "x", 2 to "y", 3 to "z")
+    println(varHashMapOf) // {1=x, 2=y, 3=z}
+    //endregion
+
+    //region hashSetOf
+    //Returns an empty new HashSet.
+    val varHashSetOf = hashSetOf(1, 2, 3, 4, 5)
+    varHashSetOf.add(3)
+    varHashSetOf.remove(2)
+    println(varHashSetOf) //[1, 3, 4, 5]
+    //endregion
+
 
 }
 
