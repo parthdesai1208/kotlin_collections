@@ -78,6 +78,16 @@ fun main1() {
     println(isEmptyList1.isNotEmpty()) //false
     //endregion
 
+    //region isNullOrEmpty
+    //Returns true if this nullable collection is either null or empty.
+    var isNullOrEmptyList: List<Any>? = null
+    println(isNullOrEmptyList.isNullOrEmpty()) //true
+    isNullOrEmptyList = listOf(1, 2, 3, 4, 5)
+    println(isNullOrEmptyList.isNullOrEmpty()) //false
+    isNullOrEmptyList = emptyList()
+    println(isNullOrEmptyList.isNullOrEmpty()) //true
+    //endregion
+
     //region ifEmpty
     //Returns this array if it's not empty or the result inside lambda
     var ifEmptyCollection = listOf(1, 2, 3)
