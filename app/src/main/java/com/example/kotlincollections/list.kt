@@ -1,5 +1,6 @@
 package com.example.kotlincollections
 
+@Suppress("unused")
 fun main1() {
 
     //region basic list things
@@ -512,10 +513,10 @@ fun main1() {
     println(listFlatMap1.flatMap { listOf(it, it * 2) }) //[1, 2, 2, 4, 3, 6, 4, 8, 5, 10]
     //region flatMapTo
     //write to new list, containing single element which produced by given transformation function
-    val listToWrite_flatMap = mutableListOf<Char>()
-    println(listToWrite_flatMap)                        //[]
-    listFlatMap.flatMapTo(destination = listToWrite_flatMap) { ("it.").toList() }
-    println(listToWrite_flatMap)                        //[k, o, t, l, i, n, ., c, o, l, l, e, c, t, i, o, n, .]
+    val listToWriteFlatMap = mutableListOf<Char>()
+    println(listToWriteFlatMap)                        //[]
+    listFlatMap.flatMapTo(destination = listToWriteFlatMap) { ("it.").toList() }
+    println(listToWriteFlatMap)                        //[k, o, t, l, i, n, ., c, o, l, l, e, c, t, i, o, n, .]
     //endregion
     //region flatMapIndexed
     //same as flatMap but also gives you index
@@ -529,10 +530,10 @@ fun main1() {
     //endregion
     //region flatMapIndexedTo
     //write to new list & same as flatMapIndexed
-    val listToWrite_flatMapIndexed = mutableListOf<String>()
-    println(listToWrite_flatMapIndexed)     //[]
+    val listToWriteFlatMapIndexed = mutableListOf<String>()
+    println(listToWriteFlatMapIndexed)     //[]
     listFlatMap.flatMapIndexedTo(
-        destination = listToWrite_flatMapIndexed,
+        destination = listToWriteFlatMapIndexed,
         transform = { index: Int, s: String ->
             if (index % 2 == 0) {
                 listOf("$s even index")
@@ -540,7 +541,7 @@ fun main1() {
                 listOf("$s odd index")
             }
         })
-    println(listToWrite_flatMapIndexed)     //[kotlin even index, collection odd index]
+    println(listToWriteFlatMapIndexed)     //[kotlin even index, collection odd index]
     //endregion
     //endregion
     //region flatten
