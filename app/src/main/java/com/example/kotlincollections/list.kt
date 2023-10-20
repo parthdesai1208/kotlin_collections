@@ -704,6 +704,23 @@ fun main1() {
     println(varHashSetOf) //[1, 3, 4, 5]
     //endregion
 
+    //region joinTo
+    //Appends the string from all the elements separated using separator and using the given prefix and postfix if supplied
+    val joinToString = StringBuilder("An existing string and a list: ")
+    val joinToList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+    println(
+        joinToList.joinTo(
+            buffer = joinToString,
+            separator = "$",
+            prefix = "[",
+            postfix = "]",
+            limit = 5,
+            truncated = "?",
+            transform = { (it * 2).toString() }
+        ).toString()
+        //An existing string and a list: [2$4$6$8$10$?]
+    )
+    //endregion
 
 }
 
