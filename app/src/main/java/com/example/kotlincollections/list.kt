@@ -734,6 +734,59 @@ fun main1() {
             transform = { (it * 2).toString() }
         )) //[2$4$6$8$10$?]
     //endregion
+
+    //region last
+    //Returns the last element.
+    val listLast = listOf(1,2,3,4,5,6)
+    println(listLast.last()) //6
+    //endregion
+
+    //region lastIndexOf
+    //Returns last index of matching element
+    val listLastIndexOf = listOf(1,2,3,4,5,6,5)
+    println(listLastIndexOf.lastIndexOf(5)) //6
+    //endregion
+
+    //region lastOrNull
+    //Returns the last element, or null if the array is empty
+    val listLastOrNull = emptyList<Int>()
+    println(listLast.lastOrNull())          //6
+    println(listLastOrNull.lastOrNull())    //null
+
+    //lastOrNull { }
+    //Returns the last element matching the given predicate, or null if no such element was found
+    println(listLast.lastOrNull { it < 5 })  //4
+    println(listLast.lastOrNull { it > 7 })  //null
+    //endregion
+
+    //region linkedMapOf
+    //immutable map but maintains the order of elements based on their insertion order
+    val _linkedMapOf = linkedMapOf(
+        1 to "one",
+        2 to "two",
+        3 to "three"
+    )
+
+    for ((key, value) in _linkedMapOf) {
+        println("Key: $key, Value: $value")
+    }
+    //Key: 1, Value: one
+    //Key: 2, Value: two
+    //Key: 3, Value: three
+    //endregion
+
+    //region linkedSetOf
+    //set but maintains the order of elements based on their insertion order
+    val _linkedHashSet: LinkedHashSet<String> = linkedSetOf("apple", "banana", "orange", "apple")
+    for (fruit in _linkedHashSet) {
+        println(fruit)
+    }
+    //apple
+    //banana
+    //orange
+    //endregion
+
+
 }
 
 fun main() {
