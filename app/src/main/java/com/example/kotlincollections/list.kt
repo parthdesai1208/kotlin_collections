@@ -786,6 +786,29 @@ fun main1() {
     //orange
     //endregion
 
+    //region List
+    //Creates a new read-only list with the specified size
+    val listForList = List(5) { (it + 1) * (it + 1) }
+    println(listForList) // [1, 4, 9, 16, 25]
+    //endregion
+
+    //region listOf
+    //Returns a new read-only list
+    val listForlist = listOf('a', 'b', 'c')
+    println(listForlist.size) //3
+    println(listForlist) //[a,b,c]
+    //endregion
+
+    //region listOfNotNull
+    //returns new list of non null if it has element otherwise empty list
+    //will return
+    val listListOfNotNull1 = listOfNotNull(1, null, 2, null, 3)
+    println(listListOfNotNull1) // [1, 2, 3]
+
+    val listListOfNotNull2 = listOfNotNull<Any>(null)
+    println(listListOfNotNull2) // []
+    //endregion
+
 
 }
 
