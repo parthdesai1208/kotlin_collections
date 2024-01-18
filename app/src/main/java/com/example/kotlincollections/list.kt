@@ -809,9 +809,55 @@ fun main1() {
     println(listListOfNotNull2) // []
     //endregion
 
+    //region map
+    //map( transform: (T) -> R )
+    // Returns a list containing the results of applying transform
+    val mapList = listOf(1, 2, 3)
+    println(mapList.map { it * it }) // [1, 4, 9]
+    println(mapList.mapIndexed { index, element -> (element + index) * element  }) //[1, 6, 15]
+    println(mapList.mapIndexedNotNull { index, element -> element?.let { (element + index) } })
+    // index + element
+    // 0+1|1+2|2+3|5+4
+    // [1, 3, 5, 9]
+    val mapList1 = mutableListOf<Int>()
+    mapList.mapIndexedNotNullTo(destination = mapList1){
+            index, element -> element?.let { (element + index) }
+    }
+    println(mapList1) //[1, 3, 5, 9]
+    val mapList2 = mutableListOf<Int>()
+    mapList.mapIndexedTo(destination = mapList2){
+            index, element -> element + index
+    }
+    println(mapList2) //[1, 3, 5, 7]
+    //endregion
+
+    //region mapKeys
+    //return map with transform keys & as it is values
+    val mapKeysMap = mapOf(1 to 'a', 2 to 'b', 3 to 'c', 4 to 'd')
+    println(mapKeysMap.mapKeys { it.value + "d" }) //{ad=a, bd=b, cd=c, dd=d}
+    //endregion
+
+    //region mapValues
+    //return map with as it is keys & transform values
+    println(mapKeysMap.mapValues { it.value + "d" }) //{1=ad, 2=bd, 3=cd, 4=dd}
+    //endregion
+
+    //region mapMapValuesTo
+    //apply operation to input map & apply to destination map
+    val mapMapValuesTo = mutableMapOf<Int,Char>()
+    mapKeysMap.mapValuesTo(destination = mapMapValuesTo){
+        it.value
+    }
+    println(mapMapValuesTo) //{1=a, 2=b, 3=c, 4=d}
+    //endregion
 
 }
 
 fun main() {
-
+    val mapKeysMap = mapOf(1 to 'a', 2 to 'b', 3 to 'c', 4 to 'd')
+    val mapMapValuesTo = mutableMapOf<Int,Char>()
+    mapKeysMap.mapValuesTo(mapMapValuesTo){
+        it.value
+    }
+    println(mapMapValuesTo)
 }
