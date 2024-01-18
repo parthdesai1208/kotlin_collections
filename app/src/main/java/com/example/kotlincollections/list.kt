@@ -737,13 +737,13 @@ fun main1() {
 
     //region last
     //Returns the last element.
-    val listLast = listOf(1,2,3,4,5,6)
+    val listLast = listOf(1, 2, 3, 4, 5, 6)
     println(listLast.last()) //6
     //endregion
 
     //region lastIndexOf
     //Returns last index of matching element
-    val listLastIndexOf = listOf(1,2,3,4,5,6,5)
+    val listLastIndexOf = listOf(1, 2, 3, 4, 5, 6, 5)
     println(listLastIndexOf.lastIndexOf(5)) //6
     //endregion
 
@@ -814,19 +814,19 @@ fun main1() {
     // Returns a list containing the results of applying transform
     val mapList = listOf(1, 2, 3)
     println(mapList.map { it * it }) // [1, 4, 9]
-    println(mapList.mapIndexed { index, element -> (element + index) * element  }) //[1, 6, 15]
+    println(mapList.mapIndexed { index, element -> (element + index) * element }) //[1, 6, 15]
     println(mapList.mapIndexedNotNull { index, element -> element?.let { (element + index) } })
     // index + element
     // 0+1|1+2|2+3|5+4
     // [1, 3, 5, 9]
     val mapList1 = mutableListOf<Int>()
-    mapList.mapIndexedNotNullTo(destination = mapList1){
-            index, element -> element?.let { (element + index) }
+    mapList.mapIndexedNotNullTo(destination = mapList1) { index, element ->
+        element?.let { (element + index) }
     }
     println(mapList1) //[1, 3, 5, 9]
     val mapList2 = mutableListOf<Int>()
-    mapList.mapIndexedTo(destination = mapList2){
-            index, element -> element + index
+    mapList.mapIndexedTo(destination = mapList2) { index, element ->
+        element + index
     }
     println(mapList2) //[1, 3, 5, 7]
     //endregion
@@ -844,20 +844,64 @@ fun main1() {
 
     //region mapMapValuesTo
     //apply operation to input map & apply to destination map
-    val mapMapValuesTo = mutableMapOf<Int,Char>()
-    mapKeysMap.mapValuesTo(destination = mapMapValuesTo){
+    val mapMapValuesTo = mutableMapOf<Int, Char>()
+    mapKeysMap.mapValuesTo(destination = mapMapValuesTo) {
         it.value
     }
     println(mapMapValuesTo) //{1=a, 2=b, 3=c, 4=d}
     //endregion
 
+    //region max
+    val maxList = listOf(1, 2, 3, 4, 5, 200)
+    //maxOrNull = return max element or null if there is no element
+    println(maxList.maxOrNull()) //200
+    //maxByOrNull = return first element if given condition not satisfy
+    //              return max element if given condition satisfy
+    println(maxList.maxByOrNull { it > 201 }) //1
+    println(maxList.maxByOrNull { it > 199 }) //200
+    //maxOf = Returns the largest value among all values produced by condition
+    var maxOfList = listOf("Alice", "Bob", "Charlie")
+    println(maxOfList.maxOf { it.length }) //7
+    //maxOfOrNull = Returns the largest value among all values produced by condition or null if no element
+    println(maxOfList.maxOfOrNull { it.length }) //7
+    maxOfList = emptyList()
+    println(maxOfList.maxOfOrNull { it.length }) //null
+    //maxOfWith = Returns the largest value according to comparator
+    //            among all values produced by last lambda
+    data class MaxOfWithDataClass(val name: String, val score: Int)
+
+    val MaxOfWithDataClasses = listOf(
+        MaxOfWithDataClass("Alice", 85),
+        MaxOfWithDataClass("Bob", 92),
+        MaxOfWithDataClass("Charlie", 88)
+    )
+
+    val maxOfWithList = MaxOfWithDataClasses.maxOfWith(comparator = compareBy { it.score } ) { it }
+    println("Highest scoring student: ${maxOfWithList.name}, Score: ${maxOfWithList.score}")
+    //Highest scoring student: Bob, Score: 92
+    val maxOfWithOrNullList = MaxOfWithDataClasses.maxOfWithOrNull(comparator = compareBy { it.score } ) { it }
+    println("Highest scoring student: ${maxOfWithOrNullList?.name}, Score: ${maxOfWithOrNullList?.score}")
+    //Highest scoring student: Bob, Score: 92
+
+    //maxWithOrNull = Returns the first element having the largest value according to comparator
+    data class MaxWithOrNullDataClass1(val feet: Int, val inches: Int)
+    data class MaxWithOrNullDataClass2(val name: String, val age: Int,
+                                       val maxWithOrNullDataClass1: MaxWithOrNullDataClass1)
+
+    val maxWithOrNullList = listOf(
+        MaxWithOrNullDataClass2("Alan", 34, MaxWithOrNullDataClass1(5, 10)),
+        MaxWithOrNullDataClass2("Jason", 45, MaxWithOrNullDataClass1(5, 11)),
+        MaxWithOrNullDataClass2("Joe", 28, MaxWithOrNullDataClass1(5, 9))
+    )
+
+    val tallestPerson = maxWithOrNullList.maxWithOrNull(comparator = compareBy({ it.maxWithOrNullDataClass1.feet }, { it.maxWithOrNullDataClass1.inches }))
+    println(tallestPerson) //Person(name=Jason, age=45, height=Height(feet=5, inches=11))
+
+
+    //endregion
 }
 
+
 fun main() {
-    val mapKeysMap = mapOf(1 to 'a', 2 to 'b', 3 to 'c', 4 to 'd')
-    val mapMapValuesTo = mutableMapOf<Int,Char>()
-    mapKeysMap.mapValuesTo(mapMapValuesTo){
-        it.value
-    }
-    println(mapMapValuesTo)
+
 }
