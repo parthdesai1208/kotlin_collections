@@ -899,9 +899,34 @@ fun main1() {
 
 
     //endregion
+
+    //region min
+    var minList = listOf(1, 2, 3, 4, 5, 200)
+    println(minList.minOrNull()) //1
+    minList = emptyList()
+    println(minList.minOrNull()) //null
+    println(MaxOfWithDataClasses.minByOrNull { it.score })
+
+    //minByOrNull - Returns the smallest value of the given condition
+    val lowestScore = MaxOfWithDataClasses.minByOrNull { it.score }
+    println(lowestScore?.score) //85
+
+    //minOf - Returns the smallest value among all values produced by condition
+    println(minList.minOf { it }) //-4
+    println(minList.minOfOrNull { it }) //-4
+
+    //minOfWith = Returns the lowest value according to comparator
+    //               among all values produced by last lambda
+    val minOfWithList = MaxOfWithDataClasses.minOfWith(comparator = compareBy { it.score } ) { it }
+    println("Lowest scoring student: ${minOfWithList.name}, Score: ${minOfWithList.score}")
+    //Lowest scoring student: Alice, Score: 85
+    val minOfWithOrNullList = MaxOfWithDataClasses.minOfWithOrNull(comparator = compareBy { it.score } ) { it }
+    println("Lowest scoring student: ${minOfWithOrNullList?.name}, Score: ${minOfWithOrNullList?.score}")
+    //Lowest scoring student: Alice, Score: 85
+
+    //endregion
 }
 
 
 fun main() {
-
 }
