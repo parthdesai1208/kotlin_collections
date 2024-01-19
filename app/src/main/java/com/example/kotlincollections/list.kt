@@ -924,6 +924,11 @@ fun main1() {
     println("Lowest scoring student: ${minOfWithOrNullList?.name}, Score: ${minOfWithOrNullList?.score}")
     //Lowest scoring student: Alice, Score: 85
 
+    //minWithOrNull = Returns the first element having the minimum value according to comparator
+    val shortestPerson = maxWithOrNullList.minWithOrNull(comparator = compareBy({ it.maxWithOrNullDataClass1.feet }, { it.maxWithOrNullDataClass1.inches }))
+    println(shortestPerson)
+    //MaxWithOrNullDataClass2(name=Joe, age=28, maxWithOrNullDataClass1=MaxWithOrNullDataClass1(feet=5, inches=9))
+
     //endregion
 
     //region minus
