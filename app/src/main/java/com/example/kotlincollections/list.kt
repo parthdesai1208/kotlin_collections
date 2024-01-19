@@ -925,8 +925,18 @@ fun main1() {
     //Lowest scoring student: Alice, Score: 85
 
     //endregion
+
+    //region minus
+    //Returns a list containing all elements of the original collection
+    //without the first occurrence of the given
+    val minusList1 = listOf(1, 2, 3, 4, 5, 200)
+    val minusList2 = listOf(3, 4, 5)
+    println(minusList1.minus(minusList2)) //[1, 2, 200]
+    println(minusList1.minusElement(200)) //[1, 2, 3, 4, 5]
+    //endregion
 }
 
 
 fun main() {
+
 }
