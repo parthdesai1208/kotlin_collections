@@ -939,6 +939,46 @@ fun main1() {
     println(minusList1.minus(minusList2)) //[1, 2, 200]
     println(minusList1.minusElement(200)) //[1, 2, 3, 4, 5]
     //endregion
+
+    //region MutableList
+    //Creates a new mutable list with the specified size
+    val listMutableList = MutableList(3) { index -> index }
+    println(listMutableList) // [0, 1, 2]
+
+    listMutableList.clear()
+    println(listMutableList) // []
+    //endregion
+
+    //region mutableListOf
+    //mutableListOf = will create empty mutableList
+    val listMutableListOf = mutableListOf<Int>()
+    println(listMutableListOf) // []
+
+    listMutableListOf.addAll(listOf(1, 2, 3))
+    println(listMutableListOf) // [1, 2, 3]
+    //endregion
+
+    //region mutableMapOf
+    //mutableMapOf = will create empty mutableMap
+    val mapMutableMapOf = mutableMapOf<Int, Int?>()
+    println(mapMutableMapOf) // {}
+
+    mapMutableMapOf[1] = 1
+    mapMutableMapOf[2] = 2
+    println(mapMutableMapOf) // {1=1, 2=2}
+    //endregion
+
+    //region mutableSetOf
+    //mutableSetOf = will create empty mutableSet
+    val setMutableSetOf = mutableSetOf<Int>()
+    println(setMutableSetOf) // []
+
+    setMutableSetOf.add(1)
+    setMutableSetOf.add(2)
+    setMutableSetOf.add(1)
+
+    println(setMutableSetOf) // [1, 2]
+    //endregion
 }
 
 
